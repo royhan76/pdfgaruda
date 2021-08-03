@@ -1,0 +1,18 @@
+{
+    "persName": {
+        "forename": "M",
+        "surname": "Gilvy"
+    },
+    "affiliation": {
+        "@attributes": {
+            "key": "aff0"
+        },
+        "orgName": [
+            "Faculty of Computer Science",
+            "University of Brawijaya"
+        ],
+        "address": {
+            "country": "Indonesia"
+        }
+    }
+}

@@ -1,0 +1,673 @@
+{
+    "teiHeader": {
+        "fileDesc": {
+            "titleStmt": {
+                "title": "IMPLEMENTASI COSINE SIMILARITY MATCHING DALAM PENENTUAN DOSEN PEMBIMBING TUGAS AKHIR"
+            },
+            "publicationStmt": {
+                "publisher": {},
+                "availability": {
+                    "@attributes": {
+                        "status": "unknown"
+                    },
+                    "licence": {}
+                }
+            },
+            "sourceDesc": {
+                "biblStruct": {
+                    "analytic": {
+                        "author": {
+                            "@attributes": {
+                                "role": "corresp"
+                            },
+                            "persName": {
+                                "forename": "Loura",
+                                "surname": "Yasni"
+                            },
+                            "email": "imam@unissula.ac.id",
+                            "affiliation": {
+                                "@attributes": {
+                                    "key": "aff0"
+                                },
+                                "orgName": [
+                                    "Sam Farisa Chaerul Haviana Departemen Teknik Informatika",
+                                    "Imam Much Ibnu Subroto *)",
+                                    "Universitas Islam Sultan Agung"
+                                ],
+                                "address": {
+                                    "settlement": "Semarang"
+                                }
+                            }
+                        },
+                        "title": "IMPLEMENTASI COSINE SIMILARITY MATCHING DALAM PENENTUAN DOSEN PEMBIMBING TUGAS AKHIR"
+                    },
+                    "monogr": {
+                        "imprint": {
+                            "date": {}
+                        }
+                    }
+                }
+            }
+        },
+        "encodingDesc": {
+            "appInfo": {
+                "application": {
+                    "@attributes": {
+                        "version": "0.7.0-SNAPSHOT",
+                        "ident": "GROBID",
+                        "when": "2021-07-28T00:03+0000"
+                    },
+                    "desc": "GROBID - A machine learning software for extracting information from scholarly documents",
+                    "ref": {
+                        "@attributes": {
+                            "target": "https:\/\/github.com\/kermitt2\/grobid"
+                        }
+                    }
+                }
+            }
+        },
+        "profileDesc": {
+            "textClass": {
+                "keywords": {
+                    "term": [
+                        "Sistem rekomendasi",
+                        "dosen pembimbing",
+                        "cosine similarity Recommendation system",
+                        "thesis advisor",
+                        "cosine similarity"
+                    ]
+                }
+            },
+            "abstract": {
+                "div": {
+                    "p": "Beberapa faktor yang mempengaruhi keberhasilan penyelesaian Tugas Akhir mahasiswa adalah ketidak sesuaian bidang ilmu dosen dengan tema tugas akhir, beban dosen yang sudah besar dan dosen belum pengalaman melakukan penelitian yang relevan dengan tema tugas akhir mahasiswa. Penelitian ini bertujuan untuk mengimplemnetasikan metode Cosine Similarity dalam penentuan dosen pembimbing tugas akhir supaya mendapatkan proses bimbingan yang optimal. Cosine Similarity adalah metode untuk menghitung similarity (tingkat kesamaan) antar dua buah objek. Pada penelitian ini dihitung tingkat kesamaan antar judul, topik, dan abstrak tugas akhir mahasiswa dibandingkan dengan data dosen pembimbing berupa keahlian dosen pembimbing, tugas akhir yang pernah dibimbing oleh dosen. Kemudian metode Cosine Similsrity akan memnghitung tingkat kesamaan kedua query tersebut. Nilai kemiripan yang tertinggi akan dimunculkan sebagai dosen pembimbing yang direkomendasikan. Metode peneltian yang digunakan adalah metode modified waterfall. Sistem yang telah dibangun merupakan sistem rekomendasi yang dapat membantu koordinator tugas akhir dalam pendistribusian dosen pembimbing tugas akhir. Selain itu, sistem rekomendasi dosen pembimbing tugas akhir dengan menerapkan metode Cosine Similarity membantu mahasiswa mendapatkan dosen pembimbing sesuai dengan tugas akhir yang diajukan."
+                }
+            }
+        }
+    },
+    "text": {
+        "body": {
+            "div": [
+                {
+                    "head": "Pendahuluan",
+                    "p": "Penelitian tugas akhir adalah suatu karya ilmiah berdasarkan kegiatan mandiri mahasiswa yang membahas suatu masalah yang sesuai dengan bidang ilmu pada program studi yang ditempuh oleh mahasiswa tersebut. Penelitian tugas akhir merupakan salah satu syarat kelulusan yang ada di setiap perguruan tinggi jenjang Strata 1 (S1). Begitu pula pada Jurusan Teknik Informatika Unissula. Proses pelaksanaan tugas akhir dilakukan selama satu tahun (2 semester) yaitu pada tahun tingkat akhir."
+                },
+                {
+                    "head": "Dalam proses pelaksanaan tugas akhir di Jurusan Teknik",
+                    "p": [
+                        "Informatika terdapat maksimal 2 orang dosen pembimbing dan 3 orang dosen penguji. Mahasiswa akan melakukan bimbingan dengan dosen pembimbing tugas akhir selama proses pengerjaan tugas akhir. Dosen pembimbing tugas akhir memiliki peran penting karena memiliki tanggung jawab untuk memastikan bahwa mahasiswa mampu menyusun tugas akhir dengan baik hingga tugas akhir tersebut siap diujikan dan berkualitas. Selain itu, dosen pembimbing sebaiknya merupakan orang yang menguasai bidang yang sesuai dengan tugas akhir mahasiswa sehingga proses bimbingan dapat berjalan dengan baik.",
+                        "Penentuan dosen pembimbing di program studi dilakukan oleh koordinator tugas akhir. Dalam penentuannya masih banyak yang menggunakan cara konvensional dengan mengandalkan pengetahuan pribadi tentang spesifikasi dosen yang dibutuhkan. Hal ini membutuhkan waktu yang cukup lama yaitu sekitar 2 minggu sampai satu bulan, apalagi jika terdapat banyak tugas akhir yang diajukan mahasiswa Teknik Informatika.",
+                        "Masalah lain dari penentuan dengan cara konvensional oleh koordinator tugas akhir yaitu dosen pembimbing yang tidak sesuai dengan topik tugas akhir yang diajukan mahasiswa karena semua keputusan ada pada koordinator tugas akhir dimana dosen yang ditunjuk sebagai dosen pembimbing seusai atau tidak dengan topik tugas akhir yang diajukan. Selain itu, jumlah bidang peminatan mahasiswa dari tahun ke tahun berbeda sehingga jumlah dosen pembimbing dalam satu keahlian ada yang berlebih dan ada yang tidak cukup. Sehingga jika pembimbing tugas akhir tidak cukup dari satu keahlian dosen maka akan diambil dari dosen dengan keahlian lain sehingga banyak yang tidak sesuai dengan kompetensi tugas akhir yang diajukan mahasiswa. Pada penelitian ini, parameter variabel yang digunakan adalah data dosen, data mahasiswa, bidang keahlian dosen, judul tugas akhir dan abstrak yang pernah dibimbing oleh dosen, judul tugas akhir, topik tugas akhir, dan abstrak tugas akhir mahasiswa. Sehingga diharapkan dengan adanya metode Cosine Similarity Matching dapat membantu koordinator tugas akhir dalam menentukan dosen pembimbing tugas akhir, dosen dalam mendapatakan topik tugas akhir mahasiswa yang sesuai bidang keahliannya, dan mahasiswa dalam mendapatakan dosen pembimbing sesuai dengan topik tugas akhir yang diajukan."
+                    ]
+                },
+                {
+                    "head": "Metode 2.1. Metode Pengumpulan Data",
+                    "p": "Metode yang digunakan untuk pengumpulan data dalam tugas akhir ini adalah studi pustaka dan wawancara. Metode wawancara dilakukan dengan mewawancarai kordinator tugas akhir."
+                },
+                {
+                    "head": "Metode Perhitungan Cosine Similarity dalam Penentuan Dosen Pembimbing Tugas Akhir",
+                    "p": [
+                        "Proses penentuan dosen pembimbing dilakukan dengan cara mencocokkan antara query tugas akhir mahasiswa (judul, topik, dan abstrak) dengan data dosen pembimbing yang ada pada database. Berikut prosesnya ditunjukkan dalam bentuk flowchart.",
+                        "Sebelum menghitung nilai kemirpa anatra query tugas akhir mahasiswa dan query dosen pembimbing dilakukan tahap preprocessing terlebih dahulu. Tahap preprocessing meliputi: 1. Case Folding yaitu tahap mengubah semua huruf dalam dokumen menjadi huruf kecil dan karakter selain huruf akan dihilangkan . 2. Tokenizing\/Parsing adalah tahap pemecahan kalimat menjadi kata-kata tunggal atau frase-frase (Parsing) .  (3) Dimana A dan B adalah dokumen berbeda, \ud835\udc34 \ud835\udc56 adalah term i yang ada pada dokumen A dan \ud835\udc35 \ud835\udc56 adalah term i yang ada pada dokumen B . Admin mengelola data user (mahasiswa dan koordinator TA). Koordinator TA dapat mengelola data dosen, bidang keahlian dosen, judul bimbingan tugas akhir terdahulu, topik tugas akhir, dan jumlah beban bimbingan dosen.Mahasiswa menginputkan judul tugas akhir, topik tugas akhir, dan abstrak tugas akhir ke dalam sistem. Kemudian sistem akan memproses inputan (query tugas akhir) dari mahasiswa dengan membandingkannya data tugas akhir terdahulu dan keahlian dosen sehingga diperoleh daftar rekomendasi nama dosen pembimbing. Mahasiswa dapat memilih maksimal 2 orang dosen pembimbing dari 5 nama yang direkomendasikan sistem. Selain itu admin dapat mencetak surat tugas bimbingan yang ditujukan kepada dosen pembimbing tugas akhir berdasarkan 2 dosen pilihan mahasiswa  Berdasarkan query pada Tabel 2, ditunjukkan bahwa jumlah dokumen relevan yang dikembalikan sebanyak 10 dokumen, dokumen yang tidak relevan dan dikembalikan sebanyak 3 dokumen, untuk jumlah dokumen relevan yang tidak dikembalikan sebanyak 0 dokumen. Maka, nilai precision dan recall untuk query pada tabel 2 adalah: Precision = 10\/(10+3) = 10\/13 = 0.77 Recall = 10\/(10+0) = 10\/10 = 1 2. Percobaan 2 Pada percobaan 2 digunakan query pada tabel 3.  Berdasarkan query pada tabel 4 Ditunjukkan bahwa jumlah dokumen relevan yang dikembalikan sebanyak 10 dokumen, dokumen yang tidak relevan dan dikembalikan sebanyak 3 dokumen, untuk jumlah dokumen relevan yang tidak dikembalikan sebanyak 0 dokumen. Maka, nilai precision dan recall untuk query pada tabel 4 adalah: Precision = 10\/(10+3) = 10\/13 = 0.77 Recall = 10\/(10+0) = 10\/10 = 1"
+                    ]
+                },
+                {
+                    "head": "Metode Pengembangan Sistem"
+                },
+                {
+                    "head": "Hasil Rekomendasi"
+                },
+                {
+                    "head": "Tabel 3. Percobaan 2 (precision dan recall)",
+                    "note": "Judul",
+                    "p": "Berdasarkan pengujian yang telah dilakukan, maka diambil kesimpulan yang ditunjukkan pada Tabel 5. "
+                },
+                {
+                    "head": "Kesimpulan",
+                    "p": "Kesimpulan yang dapat ditarik dari hasil perancangan, implementasi, dan pengujian sistem yaitu Cosine Similarity dapat diimplementasikan dalam sebuah sistem yang dapat menjadi media rekomendasi dosen pembimbing tugas akhir. Hal ini ditunjukkan dengan pengujian sistem yang dilakukan memperoleh performa yang cukup baikyaitu hasil pengujian precision dan recall memiliki performa rata-rata 0.74 dan 1. Dengan demikiansistem yang telah dibangun dapat membantu Koordinator Tugas Akhir dalam pendistribusian dosen pembimbing tugas akhir. Diharapkan sistem rekomendasi dosen pembimbing tugas akhir dengan menerapkan metode Cosine Similarity membantu mahasiswa mendapatkan dosen pembimbing sesuai dengan tugas akhir yang diajukan."
+                }
+            ],
+            "figure": [
+                {
+                    "head": "3 .",
+                    "label": "3",
+                    "figDesc": "Gambar 1. Flowchart perhitungan cosine similarity Setelah tahap preprocessing dilakukan pembobotan terhadap setiap term (kata) dari hasil prepocessing. Pembobotan yang digunakan dalam sistem ini adalah pembobotan TF-IDF. TF-IDF adalah metode pembobotan yang menggabungkan metode TF (Term Frequency) dan IDF (Inverse Document Frequency) [8]. Pembobotan TF-IDF dapat dihitung dengan menggunakan persamaan (2): idf = log(n\/df) (1) w = tf x idf (2) Dimana n merupakan jumlah seluruh dokumen yang digunakan, df (Document Frequency) adalah banyaknya kalimat yang berisi term dalam kumpulan dokumen, dan logdigunakan untuk memperkecil pengaruh terhadap relative tf [9].",
+                    "graphic": {
+                        "@attributes": {
+                            "url": "garuda1395700_assets\/opt\/lampp\/htdocs\/grobid\/grobid-master\/grobid-home\/tmp",
+                            "coords": "3,51.10,214.24,241.70,263.99",
+                            "type": "bitmap"
+                        }
+                    }
+                },
+                {
+                    "head": {},
+                    "label": {},
+                    "figDesc": "Gambar 2. Metode pengembangan sistem waterfall",
+                    "graphic": {
+                        "@attributes": {
+                            "url": "garuda1395700_assets\/opt\/lampp\/htdocs\/grobid\/grobid-master\/grobid-home\/tmp",
+                            "coords": "3,311.42,502.63,222.00,192.50",
+                            "type": "bitmap"
+                        }
+                    }
+                },
+                {
+                    "head": "6 .",
+                    "label": "6",
+                    "figDesc": "Gambar 4. Konsep Sistem",
+                    "graphic": {
+                        "@attributes": {
+                            "url": "garuda1395700_assets\/opt\/lampp\/htdocs\/grobid\/grobid-master\/grobid-home\/tmp",
+                            "coords": "4,304.75,598.93,233.85,137.25",
+                            "type": "bitmap"
+                        }
+                    }
+                },
+                {
+                    "head": "Berdasarkan",
+                    "label": {},
+                    "figDesc": "query pada tabel 3 ditunjukkan bahwa jumlah dokumen relevan yang dikembalikan sebanyak 9 dokumen, dokumen yang tidak relevan dan dikembalikan sebanyak 4 dokumen, untuk jumlah dokumen relevan yang tidak dikembalikan sebanyak 0 dokumen. Maka, nilai precision dan recall untuk query pada tabel 3 adalah: Precision = 9\/(9+4) = 9\/13 = 0.69 Recall ="
+                },
+                {
+                    "@attributes": {
+                        "type": "table"
+                    },
+                    "head": "Tabel 5. Nilai rata-rata precision dan recall",
+                    "label": {},
+                    "figDesc": {},
+                    "table": {
+                        "row": [
+                            {
+                                "cell": [
+                                    "Percobaan",
+                                    "Precision",
+                                    "Recall"
+                                ]
+                            },
+                            {
+                                "cell": [
+                                    "I",
+                                    "0.77",
+                                    "1"
+                                ]
+                            },
+                            {
+                                "cell": [
+                                    "II",
+                                    "0.69",
+                                    "1"
+                                ]
+                            },
+                            {
+                                "cell": [
+                                    "III",
+                                    "0.77",
+                                    "1"
+                                ]
+                            },
+                            {
+                                "cell": [
+                                    "Nilai rata-rata",
+                                    "0.74",
+                                    "1"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "back": {
+            "div": {
+                "@attributes": {
+                    "type": "references"
+                },
+                "listBibl": {
+                    "biblStruct": [
+                        {
+                            "analytic": {
+                                "title": "Kinerja Cosine Similarity dan Semantic Similarity dalam Pengidentifikasian Relevansi Nomor Halaman pada Daftar Indeks Istilah",
+                                "author": {
+                                    "persName": {
+                                        "forename": "S",
+                                        "surname": "Christina"
+                                    }
+                                }
+                            },
+                            "monogr": {
+                                "title": "di Sentika",
+                                "imprint": {
+                                    "date": {
+                                        "@attributes": {
+                                            "type": "published",
+                                            "when": "2014"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "analytic": {
+                                "title": "Perbaikan Ejaan Kata pada Dokumen Bahasa Indonesia dengan Metode Cosine Similarity Perbaikan Ejaan Kata pada Dokumen Bahasa Indonesia dengan Metode Cosine Similarity",
+                                "author": [
+                                    {
+                                        "persName": {
+                                            "forename": "M",
+                                            "surname": "Fachrurrozi"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": "M",
+                                            "surname": "Fachrurrozi"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": [
+                                                "A",
+                                                "A"
+                                            ],
+                                            "surname": "Manik"
+                                        }
+                                    }
+                                ]
+                            },
+                            "monogr": {
+                                "title": "Seminar Nasional Rekayasa Komputer dan Aplikasinya",
+                                "imprint": {
+                                    "date": {
+                                        "@attributes": {
+                                            "type": "published",
+                                            "when": "2016"
+                                        }
+                                    }
+                                },
+                                "respStmt": {
+                                    "orgName": "Universitas Andalas"
+                                }
+                            }
+                        },
+                        {
+                            "analytic": {
+                                "title": "Sistem Rekomendasi Penentuan Dosen Pembimbing Tugas Akhir dengan Menggunakan Algoritma Rabin-Karp",
+                                "author": [
+                                    {
+                                        "persName": {
+                                            "forename": "A",
+                                            "surname": "Salam"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": [
+                                                "V",
+                                                "P"
+                                            ],
+                                            "surname": "Wicaksana"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": "K",
+                                            "surname": "Hastuti"
+                                        }
+                                    }
+                                ]
+                            },
+                            "monogr": {
+                                "title": "Techno.COM",
+                                "imprint": {
+                                    "biblScope": [
+                                        "14",
+                                        "3",
+                                        {
+                                            "@attributes": {
+                                                "unit": "page",
+                                                "from": "225",
+                                                "to": "233"
+                                            }
+                                        }
+                                    ],
+                                    "date": {
+                                        "@attributes": {
+                                            "type": "published",
+                                            "when": "2015"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "analytic": {
+                                "title": "Penerapan Algoritma Winnowing pada Sistem Rekomendasi Penetuan Dosen Pembimbing Skripsi (Studi Kasus: Prodi Sistem Informasi)",
+                                "author": [
+                                    {
+                                        "persName": {
+                                            "forename": [
+                                                "A",
+                                                "C"
+                                            ],
+                                            "surname": "Jarwati"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": [
+                                                "W",
+                                                "E"
+                                            ],
+                                            "surname": "Prihandoko"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": "R",
+                                            "surname": "Yulia"
+                                        }
+                                    }
+                                ]
+                            },
+                            "monogr": {
+                                "title": "BERKALA SAINSTEK",
+                                "imprint": {
+                                    "biblScope": [
+                                        "5",
+                                        "1",
+                                        {
+                                            "@attributes": {
+                                                "unit": "page",
+                                                "from": "11",
+                                                "to": "20"
+                                            }
+                                        }
+                                    ],
+                                    "date": {
+                                        "@attributes": {
+                                            "type": "published",
+                                            "when": "2017"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "analytic": {
+                                "title": "Sistem Pendukung Keputusan Pemilihan Pembimbing dan Penguji Proyek Akhir di Politeknik Caltex Riau",
+                                "author": [
+                                    {
+                                        "persName": {
+                                            "forename": "I",
+                                            "surname": "Gunawan"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": [
+                                                "M",
+                                                "I"
+                                            ],
+                                            "surname": "Lestari"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "surname": "Zul"
+                                        }
+                                    }
+                                ]
+                            },
+                            "monogr": {
+                                "title": "3rd Applied Business and Engineering Conference",
+                                "meeting": {
+                                    "address": {
+                                        "addrLine": "Batam"
+                                    }
+                                },
+                                "imprint": {
+                                    "date": {
+                                        "@attributes": {
+                                            "type": "published",
+                                            "when": "2015-09"
+                                        }
+                                    },
+                                    "biblScope": {
+                                        "@attributes": {
+                                            "unit": "page",
+                                            "from": "17",
+                                            "to": "18"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "analytic": {
+                                "title": "Implementasi Cosine Similarity dan Algoritma Smith-Waterman untuk Mendeteksi Kemiripan Teks",
+                                "author": [
+                                    {
+                                        "persName": {
+                                            "forename": [
+                                                "R",
+                                                "V"
+                                            ],
+                                            "surname": "Imbar"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": "M",
+                                            "surname": "Ayub"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": "A",
+                                            "surname": "Rehatta"
+                                        }
+                                    }
+                                ]
+                            },
+                            "monogr": {
+                                "title": "J. Inform",
+                                "imprint": {
+                                    "biblScope": [
+                                        "10",
+                                        {
+                                            "@attributes": {
+                                                "unit": "page",
+                                                "from": "31",
+                                                "to": "42"
+                                            }
+                                        }
+                                    ],
+                                    "date": {
+                                        "@attributes": {
+                                            "type": "published",
+                                            "when": "2014"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "monogr": {
+                                "title": "Perbandingan Metode Cosine Similarity dengan Metode Jaccard Similarity pada Aplikasi Pencarian Terjemah Al -Qur ' an",
+                                "author": [
+                                    {
+                                        "persName": {
+                                            "forename": "O",
+                                            "surname": "Nurdiana"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": "D",
+                                            "surname": "Jumadi"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "surname": "Nursantika"
+                                        }
+                                    }
+                                ],
+                                "imprint": {
+                                    "date": {
+                                        "@attributes": {
+                                            "type": "published",
+                                            "when": "2016"
+                                        }
+                                    },
+                                    "biblScope": {
+                                        "@attributes": {
+                                            "unit": "page",
+                                            "from": "59",
+                                            "to": "63"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "analytic": {
+                                "title": "Analisis Perbandingan Metode Pembobotan Kata Tf.Idf dan Tf.Rf Terhadap Performansi Kategorisasi Teks",
+                                "author": [
+                                    {
+                                        "persName": {
+                                            "forename": [
+                                                "T",
+                                                "M"
+                                            ],
+                                            "surname": "Akbar"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": [
+                                                "A",
+                                                "P"
+                                            ],
+                                            "surname": "Kurniati"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": [
+                                                "M",
+                                                "A"
+                                            ],
+                                            "surname": "Bijaksana"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": [
+                                                "F",
+                                                "T"
+                                            ],
+                                            "surname": "Informatika"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": "U",
+                                            "surname": "Telkom"
+                                        }
+                                    }
+                                ]
+                            },
+                            "monogr": {
+                                "title": "Tugas Akhir",
+                                "imprint": {
+                                    "date": {
+                                        "@attributes": {
+                                            "type": "published",
+                                            "when": "2012"
+                                        }
+                                    },
+                                    "publisher": "Teknik Informatika"
+                                },
+                                "respStmt": {
+                                    "orgName": "Universitas Telkom"
+                                }
+                            }
+                        },
+                        {
+                            "analytic": {
+                                "title": "Implementasi Metode Maximum Marginal Relevance pada Peringkasan Teks",
+                                "author": {
+                                    "persName": {
+                                        "forename": "W",
+                                        "surname": "Yulita"
+                                    }
+                                }
+                            },
+                            "monogr": {
+                                "title": "Tugas Akhir",
+                                "imprint": {
+                                    "date": {
+                                        "@attributes": {
+                                            "type": "published",
+                                            "when": "2015"
+                                        }
+                                    }
+                                },
+                                "respStmt": {
+                                    "orgName": "Universitas Negeri Semarang"
+                                }
+                            }
+                        },
+                        {
+                            "analytic": {
+                                "title": "Analisa Performa Metode Cosine dan Jacard pada Pengujian Kesamaan Dokumen",
+                                "author": [
+                                    {
+                                        "persName": {
+                                            "forename": "B",
+                                            "surname": "Sugiyamto"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "forename": "A",
+                                            "surname": "Surarso"
+                                        }
+                                    },
+                                    {
+                                        "persName": {
+                                            "surname": "Sugiharto"
+                                        }
+                                    }
+                                ]
+                            },
+                            "monogr": {
+                                "title": "J. Masy. Inform",
+                                "imprint": {
+                                    "biblScope": [
+                                        "5",
+                                        "10",
+                                        {
+                                            "@attributes": {
+                                                "unit": "page",
+                                                "from": "1",
+                                                "to": "8"
+                                            }
+                                        }
+                                    ],
+                                    "date": {
+                                        "@attributes": {
+                                            "type": "published",
+                                            "when": "2014"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
